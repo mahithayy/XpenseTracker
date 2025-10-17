@@ -1,27 +1,26 @@
-import React, { useState } from "react";
-// styles
+import React, { useContext, useState } from "react";
 import "./Card.css";
-// components
 import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
+import AddTransactions from "../AddTransactions/AddTransactions";
+import { MoneyContext } from "../../Contexts/AllContexts";
 
-const Card = (props) => {
-  const { text, value } = props;
+const Card = ({ text }) => {
   const [modalOn, setModalOn] = useState(false);
+  const [money] = useContext(MoneyContext);
 
   const toggleModal = () => setModalOn(!modalOn);
+
+  const value = text === "Expenses" ? money.expenses : money.balance;
 
   return (
     <div className="card">
       <span className="cardText">
         <span>{text}: </span>
-        {/* Removed ₹ symbol from inside curly braces */}
         <span
-          className={
-            text === "Expenses" ? "cardTextRed" : "cardTextGreen"
-          }
+          className={text === "Expenses" ? "cardTextRed" : "cardTextGreen"}
         >
-          {value}
+          ₹{value}
         </span>
       </span>
 
@@ -32,12 +31,11 @@ const Card = (props) => {
         clickFunction={toggleModal}
       />
 
-      {modalOn ? (
-        <Modal
-          toggleModal={toggleModal}
-          text={text === "Expenses" ? "Add Expense" : "Add Balance"}
-        />
-      ) : null}
+      {modalOn && (
+        <Modal toggleModal={toggleModal}>
+          <AddTransactions toggleModal={toggleModal} />
+        </Modal>
+      )}
     </div>
   );
 };

@@ -1,21 +1,14 @@
-import React, { useState } from 'react';
-//styles
-import "./Modal.css"
-import FormButtons from '../FormButtons/FormButtons';
-import ModalForm from './ModalForm';
+import React from "react";
+import "./Modal.css";
 
-const Modal = props => {
-    //props
-    const { toggleModal, text, existingData } = props;
-
-    return (
-        <div className='Modal' onClick={toggleModal}>
-            <div className='modalBody' onClick={e => e.stopPropagation()}>
-                <div className='modalHead'>{text}</div>
-                <ModalForm existingData={existingData} formType={text} toggleModal={toggleModal}/>
-            </div>
-        </div>
-    );
+const Modal = ({ toggleModal, children }) => {
+  return (
+    <div className="Modal" onClick={toggleModal}>
+      <div className="modalBody" onClick={(e) => e.stopPropagation()}>
+        {children}
+      </div>
+    </div>
+  );
 };
 
 export default Modal;

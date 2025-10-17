@@ -1,9 +1,10 @@
 import React from 'react';
 //styles
 import "./AppBody.css";
+import AddTransactions from '../AddTransactions/AddTransactions';
 import Transactions from '../Transactions/Transactions';
 import TopExpenses from '../TopExpenses/TopExpenses';
-import AddTransactions from '../AddTransactions/AddTransactions';
+
 //components
 
 const AppBody = () => {

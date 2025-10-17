@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import "./AddTransactions.css";
 import { MoneyContext, TransactionsContext } from "../../Contexts/AllContexts";
 
-const AddTransactions = () => {
+const AddTransactions = ({ toggleModal }) => {
   const [money, setMoney] = useContext(MoneyContext);
   const [transactionData, setTransactionData] = useContext(TransactionsContext);
 
@@ -44,18 +44,18 @@ const AddTransactions = () => {
       newExpenses += Number(amount);
     }
 
-    // Update context
     setMoney({ balance: newBalance, expenses: newExpenses });
     setTransactionData([...transactionData, newTransaction]);
 
-    // Save to localStorage immediately
-    const updatedData = {
-      money: { balance: newBalance, expenses: newExpenses },
-      transactionData: [...transactionData, newTransaction],
-    };
-    localStorage.setItem("allData", JSON.stringify(updatedData));
+    localStorage.setItem(
+      "allData",
+      JSON.stringify({
+        money: { balance: newBalance, expenses: newExpenses },
+        transactionData: [...transactionData, newTransaction],
+      })
+    );
 
-    // Reset form
+    // Reset and close modal
     setFormData({
       title: "",
       amount: "",
@@ -63,6 +63,8 @@ const AddTransactions = () => {
       category: "",
       date: new Date().toISOString().split("T")[0],
     });
+
+    toggleModal && toggleModal();
   };
 
   return (
