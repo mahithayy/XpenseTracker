@@ -45,6 +45,7 @@ function App() {
 
   return (
     <main className='App'>
+      <header><h1>Expense Tracker</h1></header>
       <MoneyContext.Provider value={[money, setMoney]}>
       <TransactionsContext.Provider value={[transactionData, setTransactionData]}>
         <Navbar />

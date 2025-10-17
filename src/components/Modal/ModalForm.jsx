@@ -36,16 +36,18 @@ const ModalForm = props => {
         })
     }
     const handleChange = evt => {
-        const key = evt.target.name, value = evt.target.value;
-        setFormData({...formData, [key]: value });
-    }
+  const key = evt.target.name;
+  const value = evt.target.value;
+  setFormData({ ...formData, [key === "title" ? "name" : key]: value });
+};
+
     const handleSubmit = evt => {
         evt.preventDefault();
         // Edit Expense
         if(formType === "Add Balance"){
             setMoney({
                 ...money,
-                balance: money.balance + balanceFormData.income
+                balance: money.balance + Number(balanceFormData.income)
             });
         }
         if(formType === "Add Expense"){
@@ -91,7 +93,7 @@ const ModalForm = props => {
                 onChange={handleChange}
                 placeholder='Title'
                 type='text'
-                name='name'
+                name='title'
                 autoFocus
                 />
                 <input
