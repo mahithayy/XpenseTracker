@@ -70,6 +70,7 @@ const AddTransactions = () => {
       <h2>Add Transaction</h2>
       <div className="form-group">
         <input
+          id="title-input"
           type="text"
           name="title"
           placeholder="Title"
@@ -78,6 +79,7 @@ const AddTransactions = () => {
           required
         />
         <input
+          id="amount-input"
           type="number"
           name="amount"
           placeholder="Amount"
@@ -86,6 +88,7 @@ const AddTransactions = () => {
           required
         />
         <select
+          id="type-select"
           name="type"
           value={formData.type}
           onChange={handleChange}
@@ -95,6 +98,7 @@ const AddTransactions = () => {
           <option value="income">Income</option>
         </select>
         <select
+          id="category-select"
           name="category"
           value={formData.category}
           onChange={handleChange}
@@ -106,13 +110,14 @@ const AddTransactions = () => {
           <option value="entertainment">Entertainment</option>
         </select>
         <input
+          id="date-input"
           type="date"
           name="date"
           value={formData.date}
           onChange={handleChange}
         />
       </div>
-      <button type="submit" className="add-btn">
+      <button id="add-btn" type="submit" className="add-btn">
         Add
       </button>
     </form>
