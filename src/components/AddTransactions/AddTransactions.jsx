@@ -16,11 +16,12 @@ const AddTransactions = ({ toggleModal }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-setFormData({
-  ...formData,
-  [name === "transactionTitle" ? "title" : name]: value,
-});
-};
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -76,7 +77,7 @@ setFormData({
         <input
           id="title-input"
           type="text"
-          name="transactionTitle"
+          name="title"
           placeholder="Title"
           value={formData.title}
           onChange={handleChange}
