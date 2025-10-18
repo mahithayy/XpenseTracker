@@ -84,7 +84,7 @@ const AddTransactions = ({ toggleModal }) => {
           id="amount-input"
           type="number"
           name="amount"
-          placeholder="Amount"
+          placeholder="Income Amount"
           value={formData.amount}
           onChange={handleChange}
           required
