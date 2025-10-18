@@ -102,7 +102,7 @@ const ModalForm = (props) => {
           onChange={handleChange}
           placeholder="Title"
           type="text"
-          name="title"
+          name="modal-title"
           autoFocus
         />
         <input
@@ -112,7 +112,7 @@ const ModalForm = (props) => {
           onChange={handleChange}
           placeholder="Expense Amount"
           type="number"
-          name="price"
+          name="modal-price"
         />
         <select
           value={formData.category}
