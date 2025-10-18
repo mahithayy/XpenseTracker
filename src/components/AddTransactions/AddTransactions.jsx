@@ -20,6 +20,7 @@ setFormData({
   ...formData,
   [name === "transactionTitle" ? "title" : name]: value,
 });
+};
   const handleSubmit = (e) => {
     e.preventDefault();
 
