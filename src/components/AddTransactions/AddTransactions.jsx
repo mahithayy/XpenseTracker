@@ -135,7 +135,7 @@ const AddTransactions = ({ toggleModal }) => {
         />
       </div>
       <button id="add-btn" type="submit" className="add-btn">
-        Add
+        Add Balance
       </button>
     </form>
   );
