@@ -1,142 +1,114 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "./AddTransactions.css";
 import { MoneyContext, TransactionsContext } from "../../Contexts/AllContexts";
 
-const AddTransactions = ({ toggleModal }) => {
+const AddTransactions = ({ toggleModal, isIncome = false }) => {
   const [money, setMoney] = useContext(MoneyContext);
   const [transactionData, setTransactionData] = useContext(TransactionsContext);
 
   const [formData, setFormData] = useState({
     title: "",
     price: "",
-    type: "", // start empty instead of "expense"
+    type: isIncome ? "income" : "expense",
     category: "",
     date: new Date().toISOString().split("T")[0],
   });
 
+  // Load from localStorage initially
+  useEffect(() => {
+    const storedTransactions = localStorage.getItem("transactions");
+    if (storedTransactions) {
+      setTransactionData(JSON.parse(storedTransactions));
+    }
+  }, [setTransactionData]);
+
+  // Save to localStorage whenever transactionData changes
+  useEffect(() => {
+    localStorage.setItem("transactions", JSON.stringify(transactionData));
+  }, [transactionData]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const { title, price, type, category, date } = formData;
-    if (!title || !price || !type) return alert("Please fill all fields");
-
-    const newTransaction = {
-      id: Date.now(),
-      name: title,
-      price: Number(price),
-      category,
-      date,
-    };
-
-    let newBalance = money.balance;
-    let newExpenses = money.expenses;
-
-    if (type === "income") {
-      newBalance += Number(price);
-    } else {
-      if (newBalance < price) return alert("Out of balance");
-      newBalance -= Number(price);
-      newExpenses += Number(price);
+    const priceValue = parseFloat(formData.price);
+    if (isNaN(priceValue) || priceValue <= 0 || formData.title.trim() === "") {
+      return;
     }
 
-    const updatedTransactions = [...transactionData, newTransaction];
-    setTransactionData(updatedTransactions);
-    setMoney({ balance: newBalance, expenses: newExpenses });
+    const newTransaction = {
+      ...formData,
+      price: priceValue,
+      id: Date.now(),
+    };
 
-    localStorage.setItem(
-      "allData",
-      JSON.stringify({
-        money: { balance: newBalance, expenses: newExpenses },
-        transactionData: updatedTransactions,
-      })
-    );
+    setTransactionData((prev) => [...prev, newTransaction]);
 
-    // Reset and close modal
+    // Update money context
+    if (formData.type === "income") {
+      setMoney((prev) => prev + priceValue);
+    } else {
+      setMoney((prev) => prev - priceValue);
+    }
+
+    // Reset form after submission
     setFormData({
       title: "",
       price: "",
-      type: "", // reset to empty
+      type: isIncome ? "income" : "expense",
       category: "",
       date: new Date().toISOString().split("T")[0],
     });
 
-    toggleModal && toggleModal();
+    toggleModal();
   };
 
   return (
-    <form className="add-transaction-form" onSubmit={handleSubmit}>
-      <h2>Add Transaction</h2>
-      <div className="form-group">
+    <form className="add-form" onSubmit={handleSubmit}>
+      <h2>{isIncome ? "Add Income" : "Add Expense"}</h2>
+
+      <input
+        type="text"
+        name="title"
+        value={formData.title}
+        onChange={handleChange}
+        placeholder={isIncome ? "Income Title" : "Expense Title"}
+        required
+      />
+
+      <input
+        type="number"
+        name="price"
+        value={formData.price}
+        onChange={handleChange}
+        placeholder={isIncome ? "Income Amount" : "Expense Amount"}
+        required
+      />
+
+      {!isIncome && (
         <input
-          id="title-input"
           type="text"
-          name="title"
-          placeholder="Title"
-          value={formData.title}
-          onChange={handleChange}
-          required
-        />
-        <input
-  id="amount-input"
-  type="number"
-  name="price"
-  placeholder={formData.type === "income" ? "Income Amount" : "Expense Amount"}
-  value={formData.price}
-  onChange={handleChange}
-  required
-/>
-
-
-        <select
-          id="type-select"
-          name="type"
-          value={formData.type}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Select Type</option>
-          <option value="expense">Expense</option>
-          <option value="income">Income</option>
-        </select>
-
-        <select
-          id="category-select"
           name="category"
           value={formData.category}
           onChange={handleChange}
-          required
-        >
-          <option value="">Select Category</option>
-          <option value="food">Food</option>
-          <option value="travel">Travel</option>
-          <option value="entertainment">Entertainment</option>
-        </select>
-
-        <input
-          id="date-input"
-          type="date"
-          name="date"
-          value={formData.date}
-          onChange={handleChange}
+          placeholder="Category (Food, Travel, etc.)"
         />
-      </div>
+      )}
 
-      <button
-  id="add-btn"
-  type="submit"
-  className="add-btn"
->
-  {formData.type === "income" ? "Add Balance" : "Add Expense"}
-</button>
+      <input
+        type="date"
+        name="date"
+        value={formData.date}
+        onChange={handleChange}
+      />
 
+      <button type="submit" className="submit-btn">
+        {isIncome ? "Add Balance" : "Add Expense"}
+      </button>
     </form>
   );
 };
