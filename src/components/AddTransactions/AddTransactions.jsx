@@ -126,7 +126,7 @@ const AddTransactions = ({ toggleModal }) => {
         />
       </div>
             <button id="add-btn" type="submit" className="add-btn">
-        {formData.type === "income" ? "Add Income" : "Add Expense"}
+        {formData.type === "income" ? "Add Balance" : "Add Expense"}
       </button>
     </form>
   );
