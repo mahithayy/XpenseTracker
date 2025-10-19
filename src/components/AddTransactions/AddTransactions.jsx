@@ -8,29 +8,30 @@ const AddTransactions = ({ toggleModal }) => {
 
   const [formData, setFormData] = useState({
     title: "",
-    amount: "",
+    price: "",
     type: "expense",
     category: "",
     date: new Date().toISOString().split("T")[0],
   });
 
-   const handleChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
     });
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const { title, amount, type, category, date } = formData;
-    if (!title || !amount) return alert("Please fill all fields");
+    const { title, price, type, category, date } = formData;
+    if (!title || !price) return alert("Please fill all fields");
 
     const newTransaction = {
       id: Date.now(),
       name: title,
-      price: Number(amount),
+      price: Number(price),
       category,
       date,
     };
@@ -39,11 +40,11 @@ const AddTransactions = ({ toggleModal }) => {
     let newExpenses = money.expenses;
 
     if (type === "income") {
-      newBalance += Number(amount);
+      newBalance += Number(price);
     } else {
-      if (newBalance < amount) return alert("Out of balance");
-      newBalance -= Number(amount);
-      newExpenses += Number(amount);
+      if (newBalance < price) return alert("Out of balance");
+      newBalance -= Number(price);
+      newExpenses += Number(price);
     }
 
     setMoney({ balance: newBalance, expenses: newExpenses });
@@ -60,7 +61,7 @@ const AddTransactions = ({ toggleModal }) => {
     // Reset and close modal
     setFormData({
       title: "",
-      amount: "",
+      price: "",
       type: "expense",
       category: "",
       date: new Date().toISOString().split("T")[0],
@@ -85,12 +86,15 @@ const AddTransactions = ({ toggleModal }) => {
         <input
           id="amount-input"
           type="number"
-          name="amount"
+          name="price"
           placeholder="Income Amount"
-          value={formData.amount}
-          onChange={handleChange}
+          value={formData.price}
+          onChange={(e) =>
+            setFormData({ ...formData, price: e.target.value })
+          }
           required
         />
+
         <select
           id="type-select"
           name="type"
