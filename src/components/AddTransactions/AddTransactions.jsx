@@ -14,7 +14,7 @@ const AddTransactions = ({ toggleModal, isIncome = false }) => {
     date: new Date().toISOString().split("T")[0],
   });
 
-  // Load from localStorage initially
+  // Load saved data from localStorage
   useEffect(() => {
     const storedTransactions = localStorage.getItem("transactions");
     if (storedTransactions) {
@@ -22,7 +22,7 @@ const AddTransactions = ({ toggleModal, isIncome = false }) => {
     }
   }, [setTransactionData]);
 
-  // Save to localStorage whenever transactionData changes
+  // Save transactions to localStorage
   useEffect(() => {
     localStorage.setItem("transactions", JSON.stringify(transactionData));
   }, [transactionData]);
@@ -48,14 +48,13 @@ const AddTransactions = ({ toggleModal, isIncome = false }) => {
 
     setTransactionData((prev) => [...prev, newTransaction]);
 
-    // Update money context
     if (formData.type === "income") {
       setMoney((prev) => prev + priceValue);
     } else {
       setMoney((prev) => prev - priceValue);
     }
 
-    // Reset form after submission
+    // Reset form
     setFormData({
       title: "",
       price: "",
@@ -90,13 +89,18 @@ const AddTransactions = ({ toggleModal, isIncome = false }) => {
       />
 
       {!isIncome && (
-        <input
-          type="text"
+        <select
           name="category"
           value={formData.category}
           onChange={handleChange}
-          placeholder="Category (Food, Travel, etc.)"
-        />
+          required
+        >
+          <option value="">Select Category</option>
+          <option value="Food">Food</option>
+          <option value="Travel">Travel</option>
+          <option value="Entertainment">Entertainment</option>
+          <option value="Other">Other</option>
+        </select>
       )}
 
       <input
