@@ -14,25 +14,12 @@ const AddTransactions = ({ toggleModal }) => {
     date: new Date().toISOString().split("T")[0],
   });
 
-  const handleChange = (evt) => {
-  const key = evt.target.name;
-  const value = evt.target.value;
-  // Map 'modal-title' back to 'name' state property
-  const stateKey = (key === "modal-title" || key === "title") ? "name" : key;
-  const priceKey = key === "modal-price" ? "price" : key; // Map 'modal-price' back to 'price'
-
-  setFormData({
-    ...formData,
-    [stateKey]: value,
-    [priceKey]: value // This line is for price, ensuring we handle the new name
-  });
-  if (key === "modal-title") {
-      setFormData({ ...formData, name: value });
-  } else if (key === "modal-price") {
-      setFormData({ ...formData, price: value });
-  } else {
-      setFormData({ ...formData, [key]: value });
-  }
+   const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
   const handleSubmit = (e) => {
     e.preventDefault();
