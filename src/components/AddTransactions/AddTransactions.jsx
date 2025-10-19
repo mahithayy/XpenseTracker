@@ -85,14 +85,15 @@ const AddTransactions = ({ toggleModal }) => {
           required
         />
         <input
-          id="amount-input"
-          type="number"
-          name="price"
-          placeholder="Amount"
-          value={formData.price}
-          onChange={handleChange}
-          required
-        />
+  id="amount-input"
+  type="number"
+  name="price"
+  placeholder={formData.type === "income" ? "Income Amount" : "Expense Amount"}
+  value={formData.price}
+  onChange={handleChange}
+  required
+/>
+
 
         <select
           id="type-select"
@@ -129,13 +130,13 @@ const AddTransactions = ({ toggleModal }) => {
       </div>
 
       <button
-        id="add-btn"
-        type="submit"
-        className="add-btn"
-        disabled={!formData.type} // disable until type is selected
-      >
-        {formData.type === "income" ? "Add Balance" : "Add Expense"}
-      </button>
+  id="add-btn"
+  type="submit"
+  className="add-btn"
+>
+  {formData.type === "income" ? "Add Balance" : "Add Expense"}
+</button>
+
     </form>
   );
 };
