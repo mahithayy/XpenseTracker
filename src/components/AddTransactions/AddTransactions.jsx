@@ -9,7 +9,7 @@ const AddTransactions = ({ toggleModal }) => {
   const [formData, setFormData] = useState({
     title: "",
     price: "",
-    type: "expense",
+    type: "", // start empty instead of "expense"
     category: "",
     date: new Date().toISOString().split("T")[0],
   });
@@ -26,7 +26,7 @@ const AddTransactions = ({ toggleModal }) => {
     e.preventDefault();
 
     const { title, price, type, category, date } = formData;
-    if (!title || !price) return alert("Please fill all fields");
+    if (!title || !price || !type) return alert("Please fill all fields");
 
     const newTransaction = {
       id: Date.now(),
@@ -47,14 +47,15 @@ const AddTransactions = ({ toggleModal }) => {
       newExpenses += Number(price);
     }
 
+    const updatedTransactions = [...transactionData, newTransaction];
+    setTransactionData(updatedTransactions);
     setMoney({ balance: newBalance, expenses: newExpenses });
-    setTransactionData([...transactionData, newTransaction]);
 
     localStorage.setItem(
       "allData",
       JSON.stringify({
         money: { balance: newBalance, expenses: newExpenses },
-        transactionData: [...transactionData, newTransaction],
+        transactionData: updatedTransactions,
       })
     );
 
@@ -62,7 +63,7 @@ const AddTransactions = ({ toggleModal }) => {
     setFormData({
       title: "",
       price: "",
-      type: "expense",
+      type: "", // reset to empty
       category: "",
       date: new Date().toISOString().split("T")[0],
     });
@@ -87,11 +88,9 @@ const AddTransactions = ({ toggleModal }) => {
           id="amount-input"
           type="number"
           name="price"
-          placeholder="Income Amount"
+          placeholder="Amount"
           value={formData.price}
-          onChange={(e) =>
-            setFormData({ ...formData, price: e.target.value })
-          }
+          onChange={handleChange}
           required
         />
 
@@ -102,9 +101,11 @@ const AddTransactions = ({ toggleModal }) => {
           onChange={handleChange}
           required
         >
+          <option value="">Select Type</option>
           <option value="expense">Expense</option>
           <option value="income">Income</option>
         </select>
+
         <select
           id="category-select"
           name="category"
@@ -117,6 +118,7 @@ const AddTransactions = ({ toggleModal }) => {
           <option value="travel">Travel</option>
           <option value="entertainment">Entertainment</option>
         </select>
+
         <input
           id="date-input"
           type="date"
@@ -125,7 +127,13 @@ const AddTransactions = ({ toggleModal }) => {
           onChange={handleChange}
         />
       </div>
-            <button id="add-btn" type="submit" className="add-btn">
+
+      <button
+        id="add-btn"
+        type="submit"
+        className="add-btn"
+        disabled={!formData.type} // disable until type is selected
+      >
         {formData.type === "income" ? "Add Balance" : "Add Expense"}
       </button>
     </form>
@@ -133,4 +141,3 @@ const AddTransactions = ({ toggleModal }) => {
 };
 
 export default AddTransactions;
-
