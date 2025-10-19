@@ -25,7 +25,7 @@ const Card = ({ text }) => {
       </span>
 
       <Button
-        text={text === "Expenses" ? "+ Add Expense" : "+ Add Balance"}
+        text={text === "Expenses" ? "+ Add Expense" : "+ Add Income"}
         background={text === "Expenses" ? "gradientRed" : "gradientGreen"}
         buttonSize="largeButton"
         clickFunction={toggleModal}
