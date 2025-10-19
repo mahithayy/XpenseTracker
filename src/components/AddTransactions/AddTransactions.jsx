@@ -125,11 +125,12 @@ const AddTransactions = ({ toggleModal }) => {
           onChange={handleChange}
         />
       </div>
-      <button id="add-btn" type="submit" className="add-btn">
-        Add Balance
+            <button id="add-btn" type="submit" className="add-btn">
+        {formData.type === "income" ? "Add Income" : "Add Expense"}
       </button>
     </form>
   );
 };
 
 export default AddTransactions;
+
