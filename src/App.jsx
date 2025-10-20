@@ -25,7 +25,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // ✅ Save to localStorage only after initial render
+    //  Save to localStorage only after initial render
     if (!initialRender.current) {
       localStorage.setItem(
         "allData",
@@ -35,7 +35,7 @@ function App() {
   }, [money, transactionData]);
 
   const onLoad = () => {
-    // ✅ Clear previous localStorage to always start fresh
+    //  Clear previous localStorage to always start fresh
     // (Remove this line later if you want to persist data)
     //localStorage.removeItem("allData");
 
@@ -45,7 +45,7 @@ function App() {
       setMoney(money);
       setTransactionData(transactionData);
     } else {
-      // ✅ No saved data → start with defaults
+      //  No saved data → start with defaults
       setMoney({ balance: 5000, expenses: 0 });
       setTransactionData([]);
     }

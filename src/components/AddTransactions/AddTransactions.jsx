@@ -32,39 +32,52 @@ const AddTransactions = ({ toggleModal, isIncome = false }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+
   const handleSubmit = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const priceValue = parseFloat(formData.price);
-    if (isNaN(priceValue) || priceValue <= 0 || formData.title.trim() === "") {
-      return;
-    }
+  const priceValue = parseFloat(formData.price);
+  if (isNaN(priceValue) || priceValue <= 0 || formData.title.trim() === "") {
+    return;
+  }
 
-    const newTransaction = {
-      ...formData,
-      price: priceValue,
-      id: Date.now(),
-    };
-
-    setTransactionData((prev) => [...prev, newTransaction]);
-
-    if (formData.type === "income") {
-      setMoney((prev) => prev + priceValue);
-    } else {
-      setMoney((prev) => prev - priceValue);
-    }
-
-    // Reset form
-    setFormData({
-      title: "",
-      price: "",
-      type: isIncome ? "income" : "expense",
-      category: "",
-      date: new Date().toISOString().split("T")[0],
-    });
-
-    toggleModal();
+  const newTransaction = {
+    ...formData,
+    price: priceValue,
+    id: Date.now(),
   };
+
+  setTransactionData((prev) => {
+    const updated = [...prev, newTransaction];
+    localStorage.setItem("transactions", JSON.stringify(updated));
+    return updated;
+  });
+
+  if (formData.type === "income") {
+    setMoney((prev) => ({
+      ...prev,
+      balance: prev.balance + priceValue,
+    }));
+  } else {
+    setMoney((prev) => ({
+      ...prev,
+      balance: prev.balance - priceValue,
+      expenses: prev.expenses + priceValue,
+    }));
+  }
+
+  // Reset form
+  setFormData({
+    title: "",
+    price: "",
+    type: isIncome ? "income" : "expense",
+    category: "",
+    date: new Date().toISOString().split("T")[0],
+  });
+
+  toggleModal();
+};
+
 
   return (
     <form className="add-form" onSubmit={handleSubmit}>
