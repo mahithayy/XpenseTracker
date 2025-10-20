@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import "./AddTransactions.css";
 import { MoneyContext, TransactionsContext } from "../../Contexts/AllContexts";
 
@@ -14,30 +14,13 @@ const AddTransactions = ({ toggleModal, isIncome = false }) => {
     date: new Date().toISOString().split("T")[0],
   });
 
-  //  Load saved data from localStorage (use "allData" key)
-  useEffect(() => {
-    const storedData = localStorage.getItem("allData");
-    if (storedData) {
-      const { transactionData } = JSON.parse(storedData);
-      setTransactionData(transactionData || []);
-    }
-  }, [setTransactionData]);
-
-  //  Save data to localStorage whenever transactions or money change
-  useEffect(() => {
-    localStorage.setItem(
-      "allData",
-      JSON.stringify({ money, transactionData })
-    );
-  }, [transactionData, money]);
-
   // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  //  Handle submit for Add Income / Add Expense
+  // Handle submit for Add Income / Add Expense
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -53,16 +36,9 @@ const AddTransactions = ({ toggleModal, isIncome = false }) => {
     };
 
     // Update transaction data
-    setTransactionData((prev) => {
-      const updated = [...prev, newTransaction];
-      localStorage.setItem(
-        "allData",
-        JSON.stringify({ money, transactionData: updated })
-      );
-      return updated;
-    });
+    setTransactionData((prev) => [...prev, newTransaction]);
 
-    // Update money object correctly
+    // Update money object
     if (formData.type === "income") {
       setMoney((prev) => ({
         ...prev,
@@ -88,7 +64,6 @@ const AddTransactions = ({ toggleModal, isIncome = false }) => {
     toggleModal();
   };
 
-  // JSX
   return (
     <form className="add-form" onSubmit={handleSubmit}>
       <h2>{isIncome ? "Add Income" : "Add Expense"}</h2>

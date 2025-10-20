@@ -32,11 +32,13 @@ const Card = ({ text }) => {
       />
 
       {modalOn && (
-  <Modal toggleModal={toggleModal}>
-    <AddTransactions toggleModal={toggleModal} isIncome={text !== "Expenses"} />
-  </Modal>
-)}
-
+        <Modal toggleModal={toggleModal}>
+          <AddTransactions
+            toggleModal={toggleModal}
+            isIncome={text !== "Expenses"}
+          />
+        </Modal>
+      )}
     </div>
   );
 };
