@@ -30,16 +30,22 @@ const TransactionBar = props => {
         if(category === "travel") return travelIcon;
     }
     const deleteTransaction = () => {
-        const indexOfTransaction = transactionData.findIndex(item => id === item.id);
+  const indexOfTransaction = transactionData.findIndex(item => id === item.id);
 
-        const newBalance = money.balance + Number(amount);
-        const newExpense = money.expenses - Number(amount);
+  const newBalance = money.balance + Number(amount);
+  const newExpense = money.expenses - Number(amount);
 
-        transactionData.splice(indexOfTransaction, 1);
+  // Make a shallow copy *before* mutating
+  const updatedTransactions = [...transactionData];
+  updatedTransactions.splice(indexOfTransaction, 1);
 
-        setTransactionData([...transactionData]);
-        setMoney({balance: newBalance, expenses: newExpense});
-    }
+  setTransactionData(updatedTransactions);
+  setMoney({ balance: newBalance, expenses: newExpense });
+
+  //  Persist updated transactions
+  localStorage.setItem("transactions", JSON.stringify(updatedTransactions));
+};
+
     return (
         <div className='TransactionBar'>
             <span className='transactionIcon'>

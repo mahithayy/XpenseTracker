@@ -37,7 +37,7 @@ function App() {
   const onLoad = () => {
     // ✅ Clear previous localStorage to always start fresh
     // (Remove this line later if you want to persist data)
-    localStorage.removeItem("allData");
+    //localStorage.removeItem("allData");
 
     const localData = localStorage.getItem("allData");
     if (localData) {

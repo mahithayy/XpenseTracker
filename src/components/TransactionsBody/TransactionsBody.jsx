@@ -26,10 +26,22 @@ const TransactionsBody = () => {
 
             for(let i = startIndex; i <= endIndex; i++){
                 if(i >= transactionData.length) break;
-                const { name, date, price, category, id } = transactionData[i];
-                arr.push(
-                    <TransactionBar key={`${key++}`} name={name} date={date} amount={price} category={category} id={id}/>
-                )
+                // const { name, date, price, category, id } = transactionData[i];
+                // arr.push(
+                //     <TransactionBar key={`${key++}`} name={name} date={date} amount={price} category={category} id={id}/>
+                // )
+
+                const { title, date, price, category, id, type } = transactionData[i];
+ arr.push(
+   <TransactionBar
+     key={id || key++}
+     name={title}
+     date={date}
+     amount={price}
+     category={category || type}
+    id={id}
+   />
+ );
             }
 
             return arr;

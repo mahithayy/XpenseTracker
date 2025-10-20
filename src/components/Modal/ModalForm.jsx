@@ -87,6 +87,8 @@ const ModalForm = (props) => {
 
       setMoney({ balance: newBalance, expenses: newExpense });
       setTransactionData([...transactionData]);
+      localStorage.setItem("transactions", JSON.stringify(transactionData));
+
     }
 
     toggleModal();
