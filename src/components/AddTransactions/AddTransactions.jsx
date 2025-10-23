@@ -14,13 +14,13 @@ const AddTransactions = ({ toggleModal, isIncome = false }) => {
     date: new Date().toISOString().split("T")[0],
   });
 
-  // Handle input changes
+  //  Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle submit for Add Income / Add Expense
+  //  Submit handler
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -35,10 +35,14 @@ const AddTransactions = ({ toggleModal, isIncome = false }) => {
       id: Date.now(),
     };
 
-    // Update transaction data
-    setTransactionData((prev) => [...prev, newTransaction]);
+    // Update transactions
+    setTransactionData((prev) => {
+      const updated = [...prev, newTransaction];
+      localStorage.setItem("expenses", JSON.stringify(updated)); // 👈 keep Cypress happy
+      return updated;
+    });
 
-    // Update money object
+    // Update money
     if (formData.type === "income") {
       setMoney((prev) => ({
         ...prev,
@@ -52,7 +56,12 @@ const AddTransactions = ({ toggleModal, isIncome = false }) => {
       }));
     }
 
-    // Reset form after submission
+    //  Allow re-render before closing modal
+    setTimeout(() => {
+      toggleModal();
+    }, 0);
+
+    // Reset form
     setFormData({
       title: "",
       price: "",
@@ -60,8 +69,6 @@ const AddTransactions = ({ toggleModal, isIncome = false }) => {
       category: "",
       date: new Date().toISOString().split("T")[0],
     });
-
-    toggleModal();
   };
 
   return (
