@@ -154,7 +154,7 @@ const ModalForm = (props) => {
           name="income"
           value={balanceFormData.income}
           autoFocus
-          required
+
         />
       </div>
     );
