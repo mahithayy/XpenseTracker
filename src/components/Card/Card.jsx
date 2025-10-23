@@ -15,13 +15,10 @@ const Card = ({ text }) => {
 
   return (
     <div className="card">
-      <span className="cardText">
-        <span>{text}: </span>
-        <span
-          className={text === "Expenses" ? "cardTextRed" : "cardTextGreen"}
-        >
-          ₹{value}
-        </span>
+      <span
+        className={`cardText ${text === "Expenses" ? "cardTextRed" : "cardTextGreen"}`}
+      >
+        {text}: ₹{value}
       </span>
 
       <Button
