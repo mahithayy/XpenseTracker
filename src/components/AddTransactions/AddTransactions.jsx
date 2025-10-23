@@ -81,7 +81,7 @@ const AddTransactions = ({ toggleModal, isIncome = false }) => {
         value={formData.title}
         onChange={handleChange}
         placeholder={isIncome ? "Income Title" : "Expense Title"}
-        required
+
       />
 
       <input
@@ -90,7 +90,7 @@ const AddTransactions = ({ toggleModal, isIncome = false }) => {
         value={formData.price}
         onChange={handleChange}
         placeholder={isIncome ? "Income Amount" : "Expense Amount"}
-        required
+
       />
 
       {!isIncome && (
