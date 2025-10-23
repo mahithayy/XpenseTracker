@@ -56,7 +56,9 @@ const TransactionBar = props => {
                     <span className='TransactionName'>{name}</span>
                     <span className='TransactionDate'>{date}</span>
                 </span>
-                <span className='TransactionAmount cardTextRed'>₹{amount}</span>
+                {/* <span className='TransactionAmount cardTextRed'>₹{amount}</span> */}
+                <span className='TransactionAmount cardText cardTextRed'>₹{amount}</span>
+
             </span>
             <Button icon={deleteIcon} buttonSize="smallButton" background="backgroundRed" clickFunction={deleteTransaction}/>
             <Button icon={editIcon} buttonSize="smallButton" background="backgroundOrange" clickFunction={toggleModal} />
