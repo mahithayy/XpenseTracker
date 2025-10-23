@@ -25,7 +25,7 @@ const AddTransactions = ({ toggleModal, isIncome = false }) => {
     e.preventDefault();
 
     const priceValue = parseFloat(formData.price);
-    if (isNaN(priceValue) || priceValue <= 0 || formData.title.trim() === "") {
+    if (isNaN(priceValue) || priceValue <= 0 ) {
       return;
     }
 
