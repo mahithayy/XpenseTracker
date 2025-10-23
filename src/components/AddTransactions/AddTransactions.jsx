@@ -59,7 +59,7 @@ const AddTransactions = ({ toggleModal, isIncome = false }) => {
     //  Allow re-render before closing modal
     setTimeout(() => {
       toggleModal();
-    }, 0);
+    }, 200);
 
     // Reset form
     setFormData({
