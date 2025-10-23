@@ -7,7 +7,7 @@ import { TransactionsContext, MoneyContext } from "./Contexts/AllContexts";
 
 function App() {
   const [money, setMoney] = useState({
-    balance: 5000, // ✅ matches Cypress test expectation
+    balance: 5000, //  matches Cypress test expectation
     expenses: 0,
   });
   const [transactionData, setTransactionData] = useState([]);

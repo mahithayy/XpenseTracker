@@ -10,15 +10,15 @@ const Card = ({ text }) => {
   const [money] = useContext(MoneyContext);
 
   const toggleModal = () => setModalOn(!modalOn);
-
   const value = text === "Expenses" ? money.expenses : money.balance;
 
   return (
     <div className="card">
+      <div className="cardTitle">{text}</div>
       <span
         className={`cardText ${text === "Expenses" ? "cardTextRed" : "cardTextGreen"}`}
       >
-        {text}: ₹{value}
+        {value}
       </span>
 
       <Button
